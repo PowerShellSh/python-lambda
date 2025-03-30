@@ -1,0 +1,5 @@
+[
+  "test_app.py::test_dynamodb_operations",
+  "test_app.py::test_lambda_handler",
+  "test_app.py::test_s3_operations"
+]

@@ -1,0 +1,44 @@
+services:
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+      - "4566-4583:4566-4583"
+      - "9001:9001"
+    environment:
+      - SERVICES=s3,dynamodb,lambda
+      - DEFAULT_REGION=ap-northeast-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - LAMBDA_EXECUTOR=docker
+      # - MINIO_BROWSER=on
+      # - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
+    volumes:
+      - ./lambda:/var/task
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  lambda:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./lambda:/var/task
+      - ./tests:/tests
+    environment:
+      - PYTHONPATH=/var/task
+    depends_on:
+      - localstack
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./lambda:/var/task
+      - ./tests:/tests
+    environment:
+      - PYTHONPATH=/var/task
+    command: pytest /tests -v
+    depends_on:
+      - localstack 
