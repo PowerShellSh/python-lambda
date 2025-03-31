@@ -3,7 +3,8 @@ services:
     image: localstack/localstack:latest
     ports:
       - "4566:4566"
-      - "4566-4583:4566-4583"
+      - "4567-4577:4567-4577"
+      - "4579-4583:4579-4583"
       - "9001:9001"
     environment:
       - SERVICES=s3,dynamodb,lambda
