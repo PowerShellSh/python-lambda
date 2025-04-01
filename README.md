@@ -27,6 +27,10 @@ docker-compose up --build
 
 # バックグラウンドで実行する場合
 docker-compose up -d --build
+
+# pytest環境にログインする
+docker exec -it python-lambda-test-1 /bin/bash
+pytest /tests -v # テスト実行
 ```
 
 ### 3. S3バケットの操作方法
