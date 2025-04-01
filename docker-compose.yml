@@ -40,6 +40,6 @@ services:
       - ./tests:/tests
     environment:
       - PYTHONPATH=/var/task
-    command: pytest /tests -v
+    command: tail -f /dev/null  # コンテナを常に実行状態に保つ
     depends_on:
       - localstack 
